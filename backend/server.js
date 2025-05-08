@@ -19,16 +19,16 @@ mongoose.connect(mongoURI)
   .then(() => console.log('Connected to MongoDB Atlas'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Routes
+// Routes (if you have any backend routes)
 const userRoutes = require('./routes/user');
 app.use('/api/users', userRoutes);
 
-// Serve frontend (HTML) in production
+// Serve static frontend files (HTML, CSS, JS) in production
 if (process.env.NODE_ENV === 'production') {
-  // Serve static files from the 'frontend' directory outside of 'backend'
-  app.use(express.static(path.join(__dirname, '../frontend')));  // Adjusted to point to the 'frontend' directory
+  // Serve static files from the 'frontend' directory
+  app.use(express.static(path.join(__dirname, '../frontend')));  // Adjust path to match your structure
   app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend', 'index.html'));  // Send index.html from 'frontend'
+    res.sendFile(path.resolve(__dirname, '../frontend', 'index.html'));  // Serve the index.html from the frontend folder
   });
 }
 
