@@ -4,7 +4,6 @@ const path = require('path');
 const app = express();
 const cors = require('cors');
 const dotenv = require('dotenv');
-const bcrypt = require('bcrypt');
 
 
 
