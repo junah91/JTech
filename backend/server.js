@@ -16,12 +16,17 @@ app.use(cors());
 // MongoDB connection using mongoose
 const mongoURI = process.env.DB_URI || "mongodb+srv://junahindig:Indig22104768!@cluster0.sdrwacr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('Connected to MongoDB Atlas'))
-.catch((err) => console.error('MongoDB connection error:', err));
+async function connectDB() {
+  try {
+    await mongoose.connect(mongoURI); // No need for deprecated options
+    console.log('Connected to MongoDB Atlas');
+  } catch (err) {
+    console.error('MongoDB connection error:', err);
+  }
+}
+
+connectDB();
+
 
 // Routes
 const userRoutes = require('./routes/user');
