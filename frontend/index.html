@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Welcome</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #000803, #01360d);
+      overflow: hidden;
+    }
+
+    .responsive-header {
+      width: 100%;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    h2.typing-text {
+      position: relative;
+      z-index: 2;
+      font-size: 10rem;
+      max-width: 90vw;
+      color: transparent;
+      -webkit-text-stroke: 2px black;
+      text-shadow: -10px -10px 0 black;
+      background-image: url("assets/images/images.png");
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: textAnimate 10s linear infinite;
+      white-space: nowrap;
+      overflow: hidden;
+      display: inline-block;
+      border-right: 2px solid #00ffcc;
+      animation: blinkCursor 0.7s steps(1) infinite, textAnimate 10s linear infinite;
+    }
+
+    @keyframes textAnimate {
+      to {
+        background-position-x: -200px;
+      }
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #00ffcc; }
+    }
+
+    .container {
+      position: absolute;
+      top: 20%;
+      height: 90%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .circle {
+      position: absolute;
+      background: transparent;
+      width: calc(var(--i) * 5vmin);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 3px solid rgb(0, 255, 13);
+      transform-style: preserve-3d;
+      transform: rotateX(70deg) translateZ(50px);
+      animation: circleMove 4s ease-in-out calc(var(--i) * 0.08s) infinite;
+      box-shadow: 0 0 15px rgb(124, 124, 124), inset 0 0 15px rgb(124, 124, 124);
+    }
+
+    @keyframes circleMove {
+      0%, 100% {
+        transform: rotateX(70deg) translateZ(50px) translateY(0);
+        filter: hue-rotate(0);
+      }
+      50% {
+        transform: rotateX(70deg) translateZ(50px) translateY(-50vmin);
+        filter: hue-rotate(360deg);
+      }
+    }
+
+    #preloader {
+      position: fixed;
+      font-size: 30px;
+      top: 200px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      color: #00ffcc;
+    }
+
+    /* ✅ Responsive Design */
+    @media (max-width: 1024px) {
+      h2.typing-text {
+        font-size: 6rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h2.typing-text {
+        font-size: 4rem;
+      }
+
+      .container {
+        top: 25%;
+        height: 70%;
+      }
+
+      #preloader {
+        font-size: 20px;
+        top: 150px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2.typing-text {
+        font-size: 2.5rem;
+      }
+
+      .container {
+        top: 30%;
+        height: 60%;
+      }
+
+      #preloader {
+        font-size: 16px;
+        top: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="responsive-header">
+    <h2 id="welcomeMessage" class="typing-text"></h2>
+  </div>
+
+  <div class="container">
+    <!-- Circles will be added here by JS -->
+  </div>
+
+  <div id="preloader">
+    <div id="loading-text">Loading<span id="dots"></span></div>
+  </div>
+
+  <script>
+    // Typing animation
+    const welcomeMessage = document.getElementById("welcomeMessage");
+    const text = "WELCOME";
+    let index = 0;
+
+    function typeLetter() {
+      if (index <= text.length) {
+        welcomeMessage.textContent = text.slice(0, index);
+        index++;
+        setTimeout(typeLetter, 150);
+      } else {
+        setTimeout(() => {
+          index = 0;
+          typeLetter();
+        }, 2000);
+      }
+    }
+
+    typeLetter();
+
+    // Loading dots animation
+    const dots = document.getElementById("dots");
+    let count = 0;
+    setInterval(() => {
+      count = (count + 1) % 4;
+      dots.textContent = ".".repeat(count);
+    }, 500);
+
+    // Generate animated circles
+    for (let i = 0; i <= 20; i++) {
+      const div = document.createElement('div');
+      div.className = 'circle';
+      div.style.setProperty('--i', i);
+      document.querySelector('.container').appendChild(div);
+    }
+
+    // Redirect after delay
+    setTimeout(() => {
+      window.location.href = "landing.html";
+    }, 20000);
+  </script>
+</body>
+</html>

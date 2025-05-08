@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Orbitron', sans-serif;
+        }
+        body {
+            background-color: #0a0a0a;
+            color: #00ffcc;
+            min-height: 100vh;
+            display: flex;
+        }
+        .sidebar {
+            background: #111;
+            padding: 20px;
+            border-right: 1px solid #00ffcc;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+            width: 250px;
+            transition: transform 0.3s ease-in-out;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        .sidebar a {
+            color: #00ffcc;
+            text-decoration: none;
+            padding: 15px;
+            display: block;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .sidebar a:hover {
+            background: rgba(0, 255, 204, 0.1);
+            border: 1px solid #00ffcc;
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+        }
+        
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            margin-left: 250px;
+            transition: margin-left 0.3s ease-in-out;
+            width: 100%;
+        }
+        .top-bar {
+            background: linear-gradient(90deg, #111 0%, #1a1a1a 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+        
+        /* Profile Container */
+        .profile-container {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .profile-section {
+            background: rgba(17, 17, 17, 0.8);
+            border: 1px solid #00ffcc;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+            text-align: center;
+        }
+
+        /* Profile Avatar */
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border: 3px solid #00ffcc;
+            border-radius: 50%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: url('avatar-placeholder.png') center/cover;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.4);
+        }
+
+        .profile-avatar::after {
+            content: "Change";
+            position: absolute;
+            bottom: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ffcc;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .profile-avatar:hover::after {
+            opacity: 1;
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .edit-btn {
+            background: #00ffcc;
+            color: #0a0a0a;
+            padding: 10px 15px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .edit-btn:hover {
+            background: #008f7a;
+        }
+
+        /* Stats Section */
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .circular-stat {
+            width: 100px;
+            height: 100px;
+            border: 3px solid #00ffcc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: auto;
+            font-size: 18px;
+            font-weight: bold;
+            position: relative;
+        }
+
+        /* Activity Graph */
+        .activity-graph {
+            height: 150px;
+            background: rgba(0, 255, 204, 0.1);
+            border-radius: 8px;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .activity-bar {
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            background: #00ffcc;
+            border-radius: 4px 4px 0 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .profile-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #00ffcc;
+            font-size: 24px;
+            cursor: pointer;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -250px;
+            }
+            .sidebar.active {
+                left: 0;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .main-content {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <body>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+      
+        <div class="sidebar">
+          <a href="main.html">Dashboard</a>
+          <a href="Profile.html">Profile</a>
+          <a href="#">Analytics</a>
+          <a href="#">Settings</a>
+          <a href="HomePage.html">Logout</a>
+        </div>
+      
+        <div class="main-content">
+          <div class="top-bar">
+            <h1>SYSTEM DASHBOARD</h1>
+          </div>
+      
+          <div class="profile-container">
+            <div class="profile-section">
+              <div class="profile-avatar" id="avatar" onclick="document.getElementById('uploadAvatar').click();">
+                <input type="file" id="uploadAvatar" accept="image/*">
+                <img id="profile-avatar" alt="Profile Avatar" style="width: 150px; height: 150px; border-radius: 50%; display: none;">
+              </div>
+              <h2>User Profile</h2>
+              <p><strong>Name:</strong> Junavel C. Indig</p>
+              <p><strong>Email:</strong> junahindig@gmail.com</p>
+              <p><strong>Started:</strong> March 18, 2025</p>
+              <button class="edit-btn">Edit Profile</button>
+            </div>
+      
+            <div class="profile-section">
+              <div class="stat-grid">
+                <div class="circular-stat" id="stat1">85%</div>
+                <div class="circular-stat" id="stat2">92%</div>
+              </div>
+              <div class="activity-graph">
+                <div class="activity-bar" style="height: 60%; left: 10%"></div>
+                <div class="activity-bar" style="height: 80%; left: 25%"></div>
+                <div class="activity-bar" style="height: 40%; left: 40%"></div>
+                <div class="activity-bar" style="height: 90%; left: 55%"></div>
+                <div class="activity-bar" style="height: 70%; left: 70%"></div>
+                <div class="activity-bar" style="height: 50%; left: 85%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      
+        <script>
+          function toggleSidebar() {
+            document.querySelector('.sidebar').classList.toggle('active');
+          }
+      
+          const avatar = document.getElementById('avatar');
+          const uploadInput = document.getElementById('uploadAvatar');
+          const profileAvatar = document.getElementById('profile-avatar');
+          const storageKey = 'profileImage_junahindig@gmail.com';
+      
+          // Load saved image on page load
+          document.addEventListener("DOMContentLoaded", () => {
+            const savedImage = localStorage.getItem(storageKey);
+            if (savedImage) {
+              profileAvatar.src = savedImage;
+              profileAvatar.style.display = "block";
+              avatar.style.backgroundImage = `url('${savedImage}')`;
+            }
+          });
+      
+          // Handle file upload
+          uploadInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                localStorage.setItem(storageKey, imageUrl);
+                profileAvatar.src = imageUrl;
+                profileAvatar.style.display = "block";
+                avatar.style.backgroundImage = `url('${imageUrl}')`;
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+
+
+        // Logout Functionality
+        document.getElementById('logout').addEventListener('click', () => {
+            alert('You have been logged out.');
+            window.location.href = "HomePage.html";
+        });
+    </script>
+</body>
+</html>

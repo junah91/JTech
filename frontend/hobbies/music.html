@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Music</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body, html {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: radial-gradient(ellipse at top, #001a1a, #000000);
+      color: #00ffcc;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      .playlist-item { margin: 10px 0; }
+    }
+
+    .navbar {
+      height: 100px;
+      flex-shrink: 0;
+      background: rgba(0, 30, 30, 0.9);
+      color: #00ffcc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 22px;
+      border-bottom: 1px solid #00ffcc;
+      box-shadow: 0 0 10px #00ffcc33;
+    }
+
+    .navbar-title{
+      display: block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-size: 30px;
+      padding: 12px 0;
+      transition: color 0.3s;
+    }
+
+    .datetime {
+      font-size: 16px;
+    }
+
+    .dashboard {
+      display: flex;
+      height: 100vh;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 300px;
+      background: rgba(0, 20, 20, 0.85);
+      border-right: 1px solid #00ffcc;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .sidebar a {
+      display: block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-size: 20px;
+      padding: 12px 0;
+      border-bottom: 1px solid #004d4d;
+      transition: color 0.3s;
+    }
+
+    .sidebar a:hover {
+      color: #00ffaa;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-image: url('../assets/images/homie.avif');
+      background-size: cover;
+      background-position: center;
+    }
+    .header {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-image: url('../assets/images/tech.jpg');
+      background-size: cover;
+      background-position: center;
+      color: #000;
+    }
+
+    .hobbies-panel {
+      width: 300px;
+      background: rgba(0, 20, 20, 0.85);
+      border-left: 1px solid #00ffcc;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .hobbies-panel a {
+      display: block;
+      color: #00ffcc;
+      text-decoration: none;
+      font-size: 20px;
+      padding: 12px 0;
+      border-bottom: 1px solid #004d4d;
+      transition: color 0.3s;
+    }
+
+    .hobbies-panel a:hover {
+      color: #00ffaa;
+    }
+
+    .container {
+      position: relative;
+      top: 90px;
+      height: 90%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1;
+    }
+
+    .circle {
+      position: absolute;
+      background: transparent;
+      width: calc(var(--i) * 5vmin);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      border: 3px solid rgb(0, 255, 13);
+      transform-style: preserve-3d;
+      transform: rotateX(70deg) translateZ(50px);
+      animation: circleMove 4s ease-in-out calc(var(--i) * 0.08s) infinite;
+      box-shadow: 0 0 15px rgb(124, 124, 124), inset 0 0 15px rgb(124, 124, 124);
+    }
+
+    @keyframes circleMove {
+      0%, 100% {
+        transform: rotateX(70deg) translateZ(50px) translateY(0);
+        filter: hue-rotate(0);
+      }
+      50% {
+        transform: rotateX(70deg) translateZ(50px) translateY(-50vmin);
+        filter: hue-rotate(360deg);
+      }
+    }
+
+    .muzieknootjes {
+  display: block;
+  margin: auto;
+  position: relative;
+  width: 50%;
+  min-width: 300px;
+  height: 200px;
+  border: 0px solid #000;
+}
+
+.noot-1,
+.noot-2,
+.noot-3,
+.noot-4 {
+  position: absolute;
+  animation: notes 2s infinite linear;
+  font-size: 35px;
+  opacity: 0;
+}
+
+.noot-1 {
+  top: 60px;
+  left: 0;
+  animation-delay: 0.5s;
+}
+
+.noot-2 {
+  top: 30px;
+  left: 30%;
+  animation-delay: 1s;
+}
+
+.noot-3 {
+  top: 90px;
+  left: 60%;
+  animation-delay: 1.5s;
+}
+
+.noot-4 {
+  top: 40px;
+  left: 90%;
+  animation-delay: 2s;
+}
+
+@keyframes notes {
+  0% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.5) translate(50%, -50%);
+  }
+  80% {
+    opacity: 0;
+    transform: scale(1.5) translate(100%, -100%);
+  }
+  100% {
+    transform: scale(1.5) translate(100%, -100%);
+    opacity: 0;
+  }
+}
+
+    .logout {
+      grid-column: 1 / -1;
+      padding: 10px 20px;
+      border: 1px solid #00ffcc;
+      background: transparent;
+      color: #00ffcc;
+      text-decoration: none;
+      font-size: 14px;
+      margin-top: 20px;
+      display: inline-block;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .logout:hover {
+      background: #00ffcc;
+      color: #000000;
+    }
+    .footer {
+      background: rgba(0, 30, 30, 0.9);
+      color: #00ffcc;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+      border-top: 1px solid #00ffcc;
+      box-shadow: 0 -2px 10px #00ffcc33;
+      font-size: 14px;
+    }
+
+/* Responsive behavior */
+@media (max-width: 1200px) {
+  .sidebar, .hobbies-panel {
+    width: 240px; /* Adjust sidebar and hobbies panel width */
+  }
+
+  .main {
+    margin: 0;
+    padding: 15px;
+    grid-template-columns: 1fr; /* Ensure content is displayed in a single column */
+  }
+
+  #calendarModal .modal-content {
+    width: 320px;
+    max-width: 95%;
+    text-align: left;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+#uploader {
+  text-align: center;
+}
+
+#uploader h2 {
+  text-align: center;
+  font-size: 20px;
+}
+
+#uploader input[type="file"] {
+  padding: 5px;
+  background-color: #003;
+  color: #0ff;
+  border: 1px solid #0ff;
+  border-radius: 10px;
+}
+
+#playlist {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+audio {
+  width: 50%;
+}
+
+/* Medium Screens (1200px and below) */
+@media (max-width: 1200px) {
+  .sidebar, .hobbies-panel {
+    width: 240px;
+  }
+
+  .muzieknootjes {
+    width: 180px;
+  }
+}
+
+/* Small Screens (992px and below) */
+@media (max-width: 992px) {
+  .navbar {
+    flex-direction: column; /* Stack navbar items vertically */
+    padding: 10px;
+    height: auto; /* Make the navbar height flexible */
+    text-align: center;
+  }
+
+  .navbar-title {
+    font-size: 24px;
+  }
+
+  .datetime {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .dashboard {
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .sidebar, .hobbies-panel {
+    width: 100%; /* Full-width for sidebar and hobbies-panel */
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    border-top: 1px solid #00ffcc;
+    border-bottom: 1px solid #00ffcc;
+  }
+
+  .sidebar a, .hobbies-panel a {
+    padding: 10px;
+    font-size: 16px;
+    border-bottom: none;
+  }
+
+  .main {
+    padding: 20px;
+  }
+
+  .muzieknootjes {
+    width: 45%; /* Adjust music card size */
+  }
+}
+
+/* Smaller Screens (768px and below) */
+@media (max-width: 768px) {
+  .navbar-title {
+    font-size: 20px;
+  }
+
+  .datetime {
+    font-size: 12px;
+  }
+
+  .muzieknootjes {
+    width: 100%; /* Make music cards responsive */
+  }
+
+  .sidebar, .hobbies-panel {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+}
+
+/* Very Small Screens (480px and below) */
+@media (max-width: 480px) {
+  .navbar {
+    font-size: 16px;
+  }
+
+  .sidebar a, .hobbies-panel a {
+    font-size: 14px;
+  }
+
+  .muzieknootjes-info h3 {
+    font-size: 16px;
+  }
+
+  .muzieknootjes-info p {
+    font-size: 12px;
+  }
+
+  .muzieknootjes-info a {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .footer {
+    font-size: 12px;
+    padding: 10px;
+  }
+}
+
+  </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="homepage.html" class="navbar-title">🔷 JTech</a>
+        <div class="datetime">
+            <span id="currentDate" style="cursor: pointer; margin-right: 20px;">📅 <span id="dateDisplay"></span></span>
+            <span id="currentTime" style="cursor: pointer;">🕒 <span id="timeDisplay"></span></span>
+        </div>
+    </div>
+
+    <div id="calendarModal" class="modal">
+  <div class="modal-content">
+    <h3>Select Date</h3>
+    <input type="date" id="calendarInput" style="font-size: 16px; padding: 8px;" />
+    <div class="modal-buttons">
+      <button onclick="closeCalendarModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Analog Clock Modal -->
+<div id="clockModal" class="modal">
+  <div class="modal-content" style="text-align: center;">
+    <h3>Analog Clock</h3>
+    <canvas id="analogClock" width="200" height="200" style="margin: 10px auto;"></canvas>
+    <div class="modal-buttons">
+      <button onclick="closeClockModal()">Close</button>
+    </div>
+  </div>
+</div>
+
+  <div class="dashboard">
+    <div class="sidebar">
+      <a href="../homepage.html">🏠 Home</a>
+      <a href="../about.html">📄 About</a>
+      <a href="../goals.html">🎯 Goals</a>
+      <a href="../plan.html">📅 Plans</a>
+      <a href="../library.html">📚 Library</a>
+      <a href="../hobbies.html">🎨 Hobbies</a>
+      <a href="../landing.html">🔒 Logout</a>
+    </div>
+
+    <div class="main">
+        <div class="header">
+          <div id="uploader">
+              <h1>🎵 My Music Playlist</h1>
+              <input type="file" id="fileInput" accept="audio/*" multiple />
+            </div></div>
+            
+
+            <div id="playlist">
+              <h2> Added Music </h2>
+            </div>
+            <div class="container">
+              <div class="circle" style="--i:0;"></div>
+              <div class="circle" style="--i:1;"></div>
+              <div class="circle" style="--i:2;"></div>
+              <div class="circle" style="--i:3;"></div>
+              <div class="circle" style="--i:4;"></div>
+              <div class="circle" style="--i:5;"></div>
+              <div class="circle" style="--i:6;"></div>
+              <div class="circle" style="--i:7;"></div>
+              <div class="circle" style="--i:8;"></div>
+              <div class="circle" style="--i:9;"></div>
+              <div class="circle" style="--i:10;"></div>
+              <div class="circle" style="--i:11;"></div>
+              <div class="circle" style="--i:12;"></div>
+              <div class="circle" style="--i:13;"></div>
+              <div class="circle" style="--i:14;"></div>
+              <div class="circle" style="--i:15;"></div>
+              <div class="circle" style="--i:16;"></div>
+              <div class="circle" style="--i:17;"></div>
+              <div class="circle" style="--i:18;"></div>
+              <div class="circle" style="--i:19;"></div>
+              <div class="circle" style="--i:20;"></div>
+            <div class="muzieknootjes">
+              <div class="noot-1">
+              &#9835; &#9833;
+            </div>
+            <div class="noot-2">
+              &#9833;
+            </div>
+            <div class="noot-3">
+              &#9839; &#9834;
+            </div>
+            <div class="noot-4">
+              &#9834;
+            </div>
+            </div>
+            </div>
+    </div>
+    
+
+    <div class="hobbies-panel">
+      <a href="music.html">🎵 Music</a>
+      <a href="anime.html">📄 Anime</a>
+      <a href="Gaming.html">🎮 Gaming</a>
+      <a href="comics.html">📚 Comics</a>
+  </div>
+
+      
+      <!-- Modal -->
+      <div id="deleteModal" class="modal">
+        <div class="modal-content">
+          <p>Are you sure you want to delete this note?</p>
+          <blockquote id="notePreview"></blockquote>
+          <div class="modal-buttons">
+            <button id="confirmDelete">Yes, delete</button>
+            <button id="cancelDelete">Cancel</button>
+          </div>
+        </div>
+      </div>
+      <div id="viewModal" class="modal">
+        <div class="modal-content">
+          <textarea id="noteModalTextarea" readonly></textarea>
+          <div class="modal-buttons">
+            <button id="editNoteBtn">Edit</button>
+            <button id="saveEditBtn" style="display: none;">Save Changes</button>
+            <button onclick="closeViewModal()">Close</button>
+          </div>
+        </div>
+      </div>
+      </div>
+      <footer class="footer">
+        © 2025 JTech. All rights reserved.
+      </footer>
+      
+
+  <script>
+    function updateDateTime() {
+  const now = new Date();
+  document.getElementById('dateDisplay').textContent = now.toLocaleDateString();
+  document.getElementById('timeDisplay').textContent = now.toLocaleTimeString();
+}
+setInterval(updateDateTime, 1000);
+updateDateTime(); // initial call
+
+// --- Calendar Modal ---
+document.getElementById('currentDate').addEventListener('click', () => {
+  document.getElementById('calendarModal').style.display = 'flex';
+});
+function closeCalendarModal() {
+  document.getElementById('calendarModal').style.display = 'none';
+}
+
+// --- Clock Modal ---
+document.getElementById('currentTime').addEventListener('click', () => {
+  document.getElementById('clockModal').style.display = 'flex';
+  drawAnalogClock(); // draw once
+  if (!window.clockTimer) {
+    window.clockTimer = setInterval(drawAnalogClock, 1000);
+  }
+});
+function closeClockModal() {
+  document.getElementById('clockModal').style.display = 'none';
+  clearInterval(window.clockTimer);
+  window.clockTimer = null;
+}
+
+// --- Analog Clock Drawing ---
+function drawAnalogClock() {
+  const canvas = document.getElementById('analogClock');
+  const ctx = canvas.getContext('2d');
+  const radius = canvas.height / 2;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.translate(radius, radius);
+
+  // Clock face
+  ctx.beginPath();
+  ctx.arc(0, 0, radius * 0.9, 0, 2 * Math.PI);
+  ctx.fillStyle = '#002222';
+  ctx.fill();
+  ctx.strokeStyle = '#00ffaa';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+
+  // Numbers
+  ctx.fillStyle = '#00ffcc';
+  ctx.font = radius * 0.2 + 'px Orbitron';
+  ctx.textBaseline = 'middle';
+  ctx.textAlign = 'center';
+  for (let num = 1; num <= 12; num++) {
+    const ang = (num * Math.PI) / 6;
+    ctx.rotate(ang);
+    ctx.translate(0, -radius * 0.75);
+    ctx.rotate(-ang);
+    ctx.fillText(num.toString(), 0, 0);
+    ctx.rotate(ang);
+    ctx.translate(0, radius * 0.75);
+    ctx.rotate(-ang);
+  }
+
+  // Hands
+  const now = new Date();
+  let hour = now.getHours();
+  hour = hour % 12;
+  hour = (hour * Math.PI) / 6 + (now.getMinutes() * Math.PI) / 360;
+  drawHand(ctx, hour, radius * 0.5, 6);
+  const minute = (now.getMinutes() * Math.PI) / 30;
+  drawHand(ctx, minute, radius * 0.7, 4);
+  const second = (now.getSeconds() * Math.PI) / 30;
+  drawHand(ctx, second, radius * 0.9, 2, '#ff6666');
+
+  ctx.translate(-radius, -radius);
+}
+
+function drawHand(ctx, pos, length, width, color = '#00ffcc') {
+  ctx.beginPath();
+  ctx.lineWidth = width;
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = color;
+  ctx.moveTo(0, 0);
+  ctx.rotate(pos);
+  ctx.lineTo(0, -length);
+  ctx.stroke();
+  ctx.rotate(-pos);
+}
+
+
+
+  const dbName = 'musicDB';
+    const storeName = 'tracks';
+
+    // Open or create IndexedDB
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+        request.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          db.createObjectStore(storeName, { keyPath: 'name' });
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    // Save music file to IndexedDB
+    async function saveTrack(file) {
+      const db = await openDB();
+      const reader = new FileReader();
+      reader.onload = () => {
+        const transaction = db.transaction(storeName, 'readwrite');
+        const store = transaction.objectStore(storeName);
+        store.put({ name: file.name, data: reader.result });
+        loadPlaylist(); // Refresh playlist
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Load and display all saved tracks
+    async function loadPlaylist() {
+      const playlist = document.getElementById('playlist');
+      playlist.innerHTML = '';
+
+      const db = await openDB();
+      const transaction = db.transaction(storeName, 'readonly');
+      const store = transaction.objectStore(storeName);
+      const request = store.getAll();
+
+      request.onsuccess = () => {
+        request.result.forEach(item => {
+          const wrapper = document.createElement('div');
+          const label = document.createElement('p');
+          label.textContent = item.name;
+
+          const audio = document.createElement('audio');
+          audio.controls = true;
+          audio.src = item.data;
+
+          wrapper.appendChild(label);
+          wrapper.appendChild(audio);
+          playlist.appendChild(wrapper);
+        });
+      };
+    }
+
+    document.getElementById('fileInput').addEventListener('change', (e) => {
+      Array.from(e.target.files).forEach(saveTrack);
+    });
+
+    // Load on page load
+    window.onload = loadPlaylist;
+
+  </script>
+
+</body>
+</html>

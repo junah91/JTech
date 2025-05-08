@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="login-page">
+  <!-- Background Music -->
+  <audio id="bg-music" src="./assets/audio/Darkside_20250315_152004.mp3" autoplay loop></audio>
+
+  <!-- Main Container for Username Input -->
+  <div class="login-container">
+    <h1>WELCOME!</h1>
+    <p class="anime-text">Please State Your Name:</p>
+    <input type="text" id="username" placeholder="Enter your name..." />
+    <button id="nextButton">Next</button>
+  </div>
+
+  <!-- Modal for Secret Code -->
+  <div class="modal" id="passwordModal" style="display: none;">
+    <div class="modal-content">
+      <p id="welcomeMessage">Welcome! Please Enter the Code:</p>
+      <input type="password" id="password" placeholder="Secret code..." />
+      <button id="enterButton">Enter</button>
+    </div>
+  </div>
+
+  <!-- Link to external JavaScript file -->
+  <script src="script.js"></script>
+</body>
+</html>

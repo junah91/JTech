@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login / Register</title>
+  <link rel="stylesheet" />
+  <style>
+    body, h1, p, input, button {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    input, button {
+      padding: 10px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+    }
+
+    body.login-page {
+      font-family: 'Courier New', monospace;
+      color: white;
+      text-align: center;
+      height: 100vh;
+      background: url('./assets/images/catty.gif') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.login-page::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 0;
+    }
+
+    .login-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      padding: 20px;
+      font-size: 1.5rem;
+    }
+
+    .modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* Dark overlay */
+  z-index: 2;
+}
+
+
+.modal-content {
+  background: rgba(235, 220, 220, 0.85); /* soft pinkish background */
+  background-image: url(./assets/images/squa.gif);
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(128, 128, 128, 0.1);
+  width: 90%;
+  max-width: 400px;
+  color: rgb(0, 0, 0);
+}
+
+
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
+
+.modal-content input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #b9b9b9;
+  color: #000000;
+}
+
+
+.modal-content input::placeholder {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.modal-content input:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.modal-content button#authSubmit {
+  background-color: #07c098;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+  width: 100%;
+}
+
+.modal-content button#authSubmit:hover {
+  background-color: #0097a7;
+}
+
+.toggle-link {
+  color: #90caf9;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+  </style>
+</head>
+<body class="login-page">
+
+  <audio id="bg-music" src="./assets/audio/Darkside_20250315_152004.mp3" autoplay loop></audio>
+
+  <div class="login-container">
+    <h1>WELCOME!</h1>
+    <p>Please State Your Name:</p>
+    <input type="text" id="username" placeholder="Enter your name..." />
+    <button id="nextButton">Next</button>
+  </div>
+
+  <!-- Modal SignIn/SignUp -->
+  <div class="modal" id="authModal" style="display: none;">
+    <div class="modal-content">
+      <h2 id="modalTitle">Sign In</h2>
+      <input type="text" id="authUsername" placeholder="Username" />
+      <input type="password" id="authPassword" placeholder="Password" />
+      <input type="password" id="authConfirmPassword" placeholder="Confirm Password" style="display: none;" />
+      <button id="authSubmit">Sign In</button>
+      <button class="toggle-link" id="toggleMode">Don't have an account? Sign Up</button>
+    </div>
+  </div>
+
+  <script>
+    const users = {}; // simple object for demo user storage
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const nextButton = document.getElementById("nextButton");
+      const usernameInput = document.getElementById("username");
+      const authModal = document.getElementById("authModal");
+      const modalTitle = document.getElementById("modalTitle");
+      const authUsername = document.getElementById("authUsername");
+      const authPassword = document.getElementById("authPassword");
+      const authConfirmPassword = document.getElementById("authConfirmPassword");
+      const authSubmit = document.getElementById("authSubmit");
+      const toggleMode = document.getElementById("toggleMode");
+      const backendUrl = "http://localhost:5000";
+
+      let isSignUp = false;
+
+      nextButton.addEventListener("click", () => {
+        const username = usernameInput.value.trim();
+        if (!username) {
+          alert("Please enter your name first!");
+          return;
+        }
+
+        authUsername.value = username;
+        authModal.style.display = "flex";
+      });
+
+      toggleMode.addEventListener("click", () => {
+        isSignUp = !isSignUp;
+        modalTitle.textContent = isSignUp ? "Sign Up" : "Sign In";
+        authSubmit.textContent = isSignUp ? "Sign Up" : "Sign In";
+        authConfirmPassword.style.display = isSignUp ? "inline-block" : "none";
+        toggleMode.textContent = isSignUp ? "Already have an account? Sign In" : "Don't have an account? Sign Up";
+      });
+
+      authSubmit.addEventListener("click", async () => {
+  const user = authUsername.value.trim();
+  const pass = authPassword.value.trim();
+  const confirm = authConfirmPassword.value.trim();
+
+  if (!user || !pass || (isSignUp && !confirm)) {
+    alert("Fill in all required fields.");
+    return;
+  }
+
+  if (isSignUp && pass !== confirm) {
+    alert("Passwords do not match.");
+    return;
+  }
+
+  try {
+    const endpoint = isSignUp ? "/api/users/register" : "/api/users/login";
+    const res = await fetch(`${backendUrl}${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username: user, password: pass })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Something went wrong");
+    }
+
+    if (!isSignUp) {
+            window.location.href = "homepage.html"; // redirect on successful login
+          } else {
+            authModal.style.display = "none"; // hide modal after signup
+            setTimeout(() => {
+              alert("You can now sign in.");
+              toggleMode.click(); // Switch to login view after signup
+              authModal.style.display = "flex"; // Show the modal again
+            }, 1000); // Optional: You can delay switching for UX
+          }
+        } catch (err) {
+          alert(err.message);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
