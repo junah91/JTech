@@ -54,93 +54,96 @@
     }
 
     .modal {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.5); /* Dark overlay */
-      z-index: 2;
-    }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5); /* Dark overlay */
+  z-index: 2;
+}
 
-    .modal-content {
-      background: rgba(235, 220, 220, 0.85); /* soft pinkish background */
-      background-image: url(./assets/images/squa.gif);
-      background-size: cover;
-      backdrop-filter: blur(10px);
-      padding: 40px 30px;
-      border-radius: 15px;
-      text-align: center;
-      box-shadow: 0 0 20px rgba(128, 128, 128, 0.1);
-      width: 90%;
-      max-width: 400px;
-      color: rgb(0, 0, 0);
-    }
 
-    .modal-content h2 {
-      margin-bottom: 20px;
-      font-size: 2rem;
-      letter-spacing: 1px;
-    }
+.modal-content {
+  background: rgba(235, 220, 220, 0.85); /* soft pinkish background */
+  background-image: url(./assets/images/squa.gif);
+  background-size: cover;
+  backdrop-filter: blur(10px);
+  padding: 40px 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(128, 128, 128, 0.1);
+  width: 90%;
+  max-width: 400px;
+  color: rgb(0, 0, 0);
+}
 
-    .modal-content input {
-      width: 100%;
-      margin: 10px 0;
-      padding: 12px;
-      font-size: 1rem;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      background-color: #b9b9b9;
-      color: #000000;
-    }
 
-    .modal-content input::placeholder {
-      color: rgba(0, 0, 0, 0.7);
-    }
+.modal-content h2 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+  letter-spacing: 1px;
+}
 
-    .modal-content input:focus {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
+.modal-content input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: #b9b9b9;
+  color: #000000;
+}
 
-    .modal-content button#authSubmit {
-      background-color: #07c098;
-      color: white;
-      font-weight: bold;
-      transition: background 0.3s;
-      width: 100%;
-    }
 
-    .modal-content button#authSubmit:hover {
-      background-color: #0097a7;
-    }
+.modal-content input::placeholder {
+  color: rgba(0, 0, 0, 0.7);
+}
 
-    .toggle-link {
-      color: #90caf9;
-      font-size: 0.9rem;
-      margin-top: 15px;
-      text-decoration: underline;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
+.modal-content input:focus {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 
-    .modal {
-      animation: fadeIn 0.3s ease;
-    }
+.modal-content button#authSubmit {
+  background-color: #07c098;
+  color: white;
+  font-weight: bold;
+  transition: background 0.3s;
+  width: 100%;
+}
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.9);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+.modal-content button#authSubmit:hover {
+  background-color: #0097a7;
+}
+
+.toggle-link {
+  color: #90caf9;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modal {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 
   </style>
 </head>
@@ -180,7 +183,7 @@
       const authConfirmPassword = document.getElementById("authConfirmPassword");
       const authSubmit = document.getElementById("authSubmit");
       const toggleMode = document.getElementById("toggleMode");
-      const backendUrl = "https://jttech-1.onrender.com"; // Updated backend URL
+      const backendUrl = "http://localhost:5000";
 
       let isSignUp = false;
 
@@ -204,37 +207,37 @@
       });
 
       authSubmit.addEventListener("click", async () => {
-        const user = authUsername.value.trim();
-        const pass = authPassword.value.trim();
-        const confirm = authConfirmPassword.value.trim();
+  const user = authUsername.value.trim();
+  const pass = authPassword.value.trim();
+  const confirm = authConfirmPassword.value.trim();
 
-        if (!user || !pass || (isSignUp && !confirm)) {
-          alert("Fill in all required fields.");
-          return;
-        }
+  if (!user || !pass || (isSignUp && !confirm)) {
+    alert("Fill in all required fields.");
+    return;
+  }
 
-        if (isSignUp && pass !== confirm) {
-          alert("Passwords do not match.");
-          return;
-        }
+  if (isSignUp && pass !== confirm) {
+    alert("Passwords do not match.");
+    return;
+  }
 
-        try {
-          const endpoint = isSignUp ? "/api/users/register" : "/api/users/login";
-          const res = await fetch(`${backendUrl}${endpoint}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ username: user, password: pass })
-          });
+  try {
+    const endpoint = isSignUp ? "/api/users/register" : "/api/users/login";
+    const res = await fetch(`${backendUrl}${endpoint}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username: user, password: pass })
+    });
 
-          const data = await res.json();
+    const data = await res.json();
 
-          if (!res.ok) {
-            throw new Error(data.message || "Something went wrong");
-          }
+    if (!res.ok) {
+      throw new Error(data.message || "Something went wrong");
+    }
 
-          if (!isSignUp) {
+    if (!isSignUp) {
             window.location.href = "homepage.html"; // redirect on successful login
           } else {
             authModal.style.display = "none"; // hide modal after signup
