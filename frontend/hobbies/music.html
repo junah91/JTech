@@ -4,423 +4,35 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Music</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body, html {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(ellipse at top, #001a1a, #000000);
-      color: #00ffcc;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      .playlist-item { margin: 10px 0; }
-    }
-
-    .navbar {
-      height: 100px;
-      flex-shrink: 0;
-      background: rgba(0, 30, 30, 0.9);
-      color: #00ffcc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      font-size: 22px;
-      border-bottom: 1px solid #00ffcc;
-      box-shadow: 0 0 10px #00ffcc33;
-    }
-
-    .navbar-title{
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 30px;
-      padding: 12px 0;
-      transition: color 0.3s;
-    }
-
-    .datetime {
-      font-size: 16px;
-    }
-
-    .dashboard {
-      display: flex;
-      height: 100vh;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .sidebar {
-      width: 300px;
-      background: rgba(0, 20, 20, 0.85);
-      border-right: 1px solid #00ffcc;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .sidebar a {
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 12px 0;
-      border-bottom: 1px solid #004d4d;
-      transition: color 0.3s;
-    }
-
-    .sidebar a:hover {
-      color: #00ffaa;
-    }
-
-    .main {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      background-image: url('../assets/images/homie.avif');
-      background-size: cover;
-      background-position: center;
-    }
-    .header {
-      flex: 1;
-      padding: 20px;
-      overflow-y: auto;
-      background-image: url('../assets/images/tech.jpg');
-      background-size: cover;
-      background-position: center;
-      color: #000;
-    }
-
-    .hobbies-panel {
-      width: 300px;
-      background: rgba(0, 20, 20, 0.85);
-      border-left: 1px solid #00ffcc;
-      padding: 20px;
-      overflow-y: auto;
-    }
-    .hobbies-panel a {
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 12px 0;
-      border-bottom: 1px solid #004d4d;
-      transition: color 0.3s;
-    }
-
-    .hobbies-panel a:hover {
-      color: #00ffaa;
-    }
-
-    .container {
-      position: relative;
-      top: 90px;
-      height: 90%;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1;
-    }
-
-    .circle {
-      position: absolute;
-      background: transparent;
-      width: calc(var(--i) * 5vmin);
-      aspect-ratio: 1;
-      border-radius: 50%;
-      border: 3px solid rgb(0, 255, 13);
-      transform-style: preserve-3d;
-      transform: rotateX(70deg) translateZ(50px);
-      animation: circleMove 4s ease-in-out calc(var(--i) * 0.08s) infinite;
-      box-shadow: 0 0 15px rgb(124, 124, 124), inset 0 0 15px rgb(124, 124, 124);
-    }
-
-    @keyframes circleMove {
-      0%, 100% {
-        transform: rotateX(70deg) translateZ(50px) translateY(0);
-        filter: hue-rotate(0);
-      }
-      50% {
-        transform: rotateX(70deg) translateZ(50px) translateY(-50vmin);
-        filter: hue-rotate(360deg);
-      }
-    }
-
-    .muzieknootjes {
-  display: block;
-  margin: auto;
-  position: relative;
-  width: 50%;
-  min-width: 300px;
-  height: 200px;
-  border: 0px solid #000;
-}
-
-.noot-1,
-.noot-2,
-.noot-3,
-.noot-4 {
-  position: absolute;
-  animation: notes 2s infinite linear;
-  font-size: 35px;
-  opacity: 0;
-}
-
-.noot-1 {
-  top: 60px;
-  left: 0;
-  animation-delay: 0.5s;
-}
-
-.noot-2 {
-  top: 30px;
-  left: 30%;
-  animation-delay: 1s;
-}
-
-.noot-3 {
-  top: 90px;
-  left: 60%;
-  animation-delay: 1.5s;
-}
-
-.noot-4 {
-  top: 40px;
-  left: 90%;
-  animation-delay: 2s;
-}
-
-@keyframes notes {
-  0% {
-    transform: scale(1) translate(0, 0);
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.5) translate(50%, -50%);
-  }
-  80% {
-    opacity: 0;
-    transform: scale(1.5) translate(100%, -100%);
-  }
-  100% {
-    transform: scale(1.5) translate(100%, -100%);
-    opacity: 0;
-  }
-}
-
-    .logout {
-      grid-column: 1 / -1;
-      padding: 10px 20px;
-      border: 1px solid #00ffcc;
-      background: transparent;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 14px;
-      margin-top: 20px;
-      display: inline-block;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .logout:hover {
-      background: #00ffcc;
-      color: #000000;
-    }
-    .footer {
-      background: rgba(0, 30, 30, 0.9);
-      color: #00ffcc;
-      text-align: center;
-      padding: 20px;
-      margin-top: auto;
-      border-top: 1px solid #00ffcc;
-      box-shadow: 0 -2px 10px #00ffcc33;
-      font-size: 14px;
-    }
-
-/* Responsive behavior */
-@media (max-width: 1200px) {
-  .sidebar, .hobbies-panel {
-    width: 240px; /* Adjust sidebar and hobbies panel width */
-  }
-
-  .main {
-    margin: 0;
-    padding: 15px;
-    grid-template-columns: 1fr; /* Ensure content is displayed in a single column */
-  }
-
-  #calendarModal .modal-content {
-    width: 320px;
-    max-width: 95%;
-    text-align: left;
-  }
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.7);
-  justify-content: center;
-  align-items: center;
-}
-
-#uploader {
-  text-align: center;
-}
-
-#uploader h2 {
-  text-align: center;
-  font-size: 20px;
-}
-
-#uploader input[type="file"] {
-  padding: 5px;
-  background-color: #003;
-  color: #0ff;
-  border: 1px solid #0ff;
-  border-radius: 10px;
-}
-
-#playlist {
-  margin-top: 10px;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-}
-
-audio {
-  width: 50%;
-}
-
-/* Medium Screens (1200px and below) */
-@media (max-width: 1200px) {
-  .sidebar, .hobbies-panel {
-    width: 240px;
-  }
-
-  .muzieknootjes {
-    width: 180px;
-  }
-}
-
-/* Small Screens (992px and below) */
-@media (max-width: 992px) {
-  .navbar {
-    flex-direction: column; /* Stack navbar items vertically */
-    padding: 10px;
-    height: auto; /* Make the navbar height flexible */
-    text-align: center;
-  }
-
-  .navbar-title {
-    font-size: 24px;
-  }
-
-  .datetime {
-    margin-top: 10px;
-    font-size: 14px;
-  }
-
-  .dashboard {
-    flex-direction: column;
-    overflow: auto;
-  }
-
-  .sidebar, .hobbies-panel {
-    width: 100%; /* Full-width for sidebar and hobbies-panel */
-    display: flex;
-    justify-content: space-around;
-    padding: 10px;
-    border-top: 1px solid #00ffcc;
-    border-bottom: 1px solid #00ffcc;
-  }
-
-  .sidebar a, .hobbies-panel a {
-    padding: 10px;
-    font-size: 16px;
-    border-bottom: none;
-  }
-
-  .main {
-    padding: 20px;
-  }
-
-  .muzieknootjes {
-    width: 45%; /* Adjust music card size */
-  }
-}
-
-/* Smaller Screens (768px and below) */
-@media (max-width: 768px) {
-  .navbar-title {
-    font-size: 20px;
-  }
-
-  .datetime {
-    font-size: 12px;
-  }
-
-  .muzieknootjes {
-    width: 100%; /* Make music cards responsive */
-  }
-
-  .sidebar, .hobbies-panel {
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-}
-
-/* Very Small Screens (480px and below) */
-@media (max-width: 480px) {
-  .navbar {
-    font-size: 16px;
-  }
-
-  .sidebar a, .hobbies-panel a {
-    font-size: 14px;
-  }
-
-  .muzieknootjes-info h3 {
-    font-size: 16px;
-  }
-
-  .muzieknootjes-info p {
-    font-size: 12px;
-  }
-
-  .muzieknootjes-info a {
-    font-size: 12px;
-    padding: 4px 8px;
-  }
-
-  .footer {
-    font-size: 12px;
-    padding: 10px;
-  }
-}
-
-  </style>
+  <link rel="stylesheet" href="../style/hobbies.css">
 </head>
 <body>
     <div class="navbar">
-        <a href="homepage.html" class="navbar-title">🔷 JTech</a>
+        <a href="../homepage.html" class="navbar-title"> <span class="logo-j" >&#120129;</span>&#10809;&#120072;&#162;&#8459;</a>
         <div class="datetime">
-            <span id="currentDate" style="cursor: pointer; margin-right: 20px;">📅 <span id="dateDisplay"></span></span>
-            <span id="currentTime" style="cursor: pointer;">🕒 <span id="timeDisplay"></span></span>
+      <span id="currentDate" style="cursor: pointer; margin-right: 20px;">📅 <span id="dateDisplay"></span></span>
+      <span id="currentTime" style="cursor: pointer;">🕒 <span id="timeDisplay"></span></span>
         </div>
+        <div class="theme-switcher">
+          <select id="themeSelector">
+            <option value="default"> 🧩 Default</option>
+            <option value="pink">🌸 Pink</option>
+            <option value="blue">🔵 Blue</option>
+            <option value="light">💡 Light</option>
+            <option value="sunset">🌇 Sunset</option>
+            <option value="violet">💜 Violet</option>
+            <option value="green">💚 Green</option>
+            <option value="black-pink">🖤💖 Black Pink</option>
+            <option value="black-red">🖤❤️ Black Red</option>
+            <option value="black-blue">🖤💙 Black Blue</option>
+            <option value="purple-black">🖤� Black Purple</option>
+          </select>
+        </div>
+        <!-- Inside Navbar -->
+        <a href="../profile.html" id="navbar-profile-link">
+        <img id="navbar-avatar" src="../assets/images/jun.png" alt="Profile" style="height: 50px; width: 50px; border-radius: 50%;" />
+        </a>
+      </div>
     </div>
 
     <div id="calendarModal" class="modal">
@@ -447,13 +59,13 @@ audio {
 
   <div class="dashboard">
     <div class="sidebar">
-      <a href="../homepage.html">🏠 Home</a>
-      <a href="../about.html">📄 About</a>
-      <a href="../goals.html">🎯 Goals</a>
-      <a href="../plan.html">📅 Plans</a>
-      <a href="../library.html">📚 Library</a>
-      <a href="../hobbies.html">🎨 Hobbies</a>
-      <a href="../landing.html">🔒 Logout</a>
+      <a href="../homepage.html">&#127969; Home</a>
+      <a href="../about.html">&#128196; About</a>
+      <a href="../goals.html">&#127919; Goals</a>
+      <a href="../plan.html">&#128197; Plans</a>
+      <a href="../library.html">&#128212; Library</a>
+      <a href="../hobbies.html">&#127912; Hobbies</a>
+      <a href="../landing.html">&#128274; Logout</a>
     </div>
 
     <div class="main">
@@ -504,37 +116,13 @@ audio {
             </div>
             </div>
             </div>
-    </div>
-    
-
+          </div>
     <div class="hobbies-panel">
-      <a href="music.html">🎵 Music</a>
-      <a href="anime.html">📄 Anime</a>
-      <a href="Gaming.html">🎮 Gaming</a>
-      <a href="comics.html">📚 Comics</a>
-  </div>
-
-      
-      <!-- Modal -->
-      <div id="deleteModal" class="modal">
-        <div class="modal-content">
-          <p>Are you sure you want to delete this note?</p>
-          <blockquote id="notePreview"></blockquote>
-          <div class="modal-buttons">
-            <button id="confirmDelete">Yes, delete</button>
-            <button id="cancelDelete">Cancel</button>
-          </div>
-        </div>
-      </div>
-      <div id="viewModal" class="modal">
-        <div class="modal-content">
-          <textarea id="noteModalTextarea" readonly></textarea>
-          <div class="modal-buttons">
-            <button id="editNoteBtn">Edit</button>
-            <button id="saveEditBtn" style="display: none;">Save Changes</button>
-            <button onclick="closeViewModal()">Close</button>
-          </div>
-        </div>
+        <a href="music.html">&#127926; Music</a>
+        <a href="anime.html">&#127916; Anime</a>
+        <a href="Gaming.html">&#127918; Gaming</a>
+        <a href="comics.html">&#128212; Comics</a>
+    </div>
       </div>
       </div>
       <footer class="footer">
@@ -697,6 +285,31 @@ function drawHand(ctx, pos, length, width, color = '#00ffcc') {
     // Load on page load
     window.onload = loadPlaylist;
 
+    // --- Theme Switcher ---//
+
+  const themeSelector = document.getElementById('themeSelector');
+
+  // Load stored theme
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+      document.body.setAttribute('data-theme', savedTheme);
+      themeSelector.value = savedTheme;
+    }
+  });
+
+  themeSelector.addEventListener('change', function () {
+    const selected = this.value;
+    document.body.setAttribute('data-theme', selected);
+    localStorage.setItem('selectedTheme', selected);
+  });
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const userPhoto = localStorage.getItem("userPhoto");
+    if (userPhoto) {
+      document.getElementById("navbar-avatar").src = userPhoto;
+    }
+  });
   </script>
 
 </body>

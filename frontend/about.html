@@ -4,352 +4,37 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>About</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+  <link rel="stylesheet" href="./style/style.css">
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(ellipse at top, #001a1a, #000000);
-      color: #00ffcc;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .navbar {
-      height: 100px;
-      background: rgba(0, 30, 30, 0.9);
-      color: #00ffcc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      font-size: 22px;
-      border-bottom: 1px solid #00ffcc;
-      box-shadow: 0 0 10px #00ffcc33;
-    }
-
-    .navbar-title{
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 30px;
-      padding: 12px 0;
-      transition: color 0.3s;
-    }
-
-    .datetime {
-      font-size: 16px;
-    }
-
-    .dashboard {
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    .sidebar {
-      width: 300px;
-      background: rgba(0, 20, 20, 0.85);
-      border-right: 1px solid #00ffcc;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .sidebar a {
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 12px 0;
-      border-bottom: 1px solid #004d4d;
-      transition: color 0.3s;
-    }
-
-    .sidebar a:hover {
-      color: #00ffaa;
-    }
-
-    .main {
-      flex: 1; /* take remaining space */
-      min-width: 0; /* allow shrinking */
-      padding: 20px;
-      overflow-y: auto;
-      background-image: url(./assets/images/homie.avif);
-      background-size: cover;
-      background-position: center;
-    }
-
-    .notes-panel {
-      width: 300px;
-      background: rgba(0, 20, 20, 0.85);
-      border-left: 1px solid #00ffcc;
-      padding: 20px;
-      overflow-y: auto;
-}
-
-    .notes-panel h2 {
-      font-size: 16px;
-      margin-top: 0;
-      color: #00ffaa;
-    }
-
-    .notes-panel textarea {
-      width: 100%;
-      height: 10%;
-      background: #001f1f;
-      border: 1px solid #00ccaa;
-      color: #00ffcc;
-      font-family: 'Orbitron', sans-serif;
-      padding: 10px;
-      resize: none;
-    }
-    .notes-panel button.clear-notes {
-  margin-top: 10px;
-  padding: 8px 14px;
-  background: #00ffcc;
-  border: none;
-  color: #000;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 6px;
-  box-shadow: 0 0 6px #00ffcc88;
-  transition: background 0.3s ease;
-}
-
-.note-buttons {
-  margin-top: 10px;
-  display: flex;
-  gap: 10px;
-}
-
-.note-buttons button {
-  padding: 8px 14px;
-  margin-top: 10px;
-  background: #00ffcc;
-  border: none;
-  color: #000;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 6px;
-  box-shadow: 0 0 6px #00ffcc88;
-  transition: background 0.3s ease;
-}
-
-.note-buttons button:hover {
-  background: #00e6b8;
-}
-
-.saved-note-container {
-  position: relative;
-  margin-top: 15px;
-}
-
-.saved-note {
-  background: rgba(0, 40, 40, 0.6);
-  border: 1px solid #00ffaa;
-  color: #ccfff9;
-  border-left: 4px solid #00ffaa;
-  padding: 10px;
-  position: relative;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  height: 40px; /* or whatever fits best */
-}
-
-
-.delete-note {
-  position: absolute;
-  top: 8px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: #ff6666;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-}
-
-.modal-content {
-  background: #002222;
-  padding: 20px 30px;
-  border: 1px solid #00ffaa;
-  color: #ccfff9;
-  max-width: 400px;
-  text-align: center;
-  border-radius: 6px;
-}
-
-.modal blockquote {
-  background: #003333;
-  padding: 10px;
-  border-left: 4px solid #00ffaa;
-  margin: 15px 0;
-  font-style: italic;
-}
-
-.modal-buttons button {
-  margin: 10px 15px 0 15px;
-  padding: 8px 16px;
-  background: transparent;
-  border: 1px solid #00ffcc;
-  color: #00ffcc;
-  cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-}
-
-.modal-buttons button:hover {
-  background: #00ffcc;
-  color: #000;
-}
-#viewModal textarea {
-  width: 100%;
-  height: 200px;
-  background: #003333;
-  color: #ccfff9;
-  border: 1px solid #00ffaa;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 14px;
-  padding: 10px;
-  resize: vertical;
-}
-
-
-    .section-box {
-      background: rgba(0, 40, 40, 0.75);
-      border-left: 4px solid #00ffaa;
-      padding: 20px;
-      box-shadow: 0 0 10px #00ffcc33;
-    }
-
-    .hobby-container {
-      margin-top: 10px;
-      background: rgba(0, 60, 60, 0.4);
-      padding: 12px;
-      border-left: 3px solid #00ccaa;
-    }
-
-    h1 {
-      grid-column: 1 / -1;
-      font-size: 24px;
-      color: #00ffcc;
-    }
-
-    p {
-      grid-column: 1 / -1;
-      font-size: 14px;
-      color: #ccfff9;
-    }
-
-    h2 {
-      font-size: 18px;
-      margin: 0 0 10px;
-      color: #00ffaa;
-    }
-
-    h3 {
-      margin: 0 0 5px;
-    }
-
-    .logout {
-      grid-column: 1 / -1;
-      padding: 10px 20px;
-      border: 1px solid #00ffcc;
-      background: transparent;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 14px;
-      margin-top: 20px;
-      display: inline-block;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .logout:hover {
-      background: #00ffcc;
-      color: #000000;
-    }
-
-    /* Responsive behavior */
-    @media (max-width: 900px) {
-      .sidebar,
-      .notes-panel {
-        display: none;
-      }
-
-      .main {
-        margin: 0;
-        padding: 15px;
-        grid-template-columns: 1fr;
-      }
-    }
-    #calendarModal .modal-content {
-  width: 320px;
-  max-width: 95%;
-  text-align: left;
-}
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
-}
-
-.footer {
-  background: rgba(0, 30, 30, 0.9);
-  color: #00ffcc;
-  text-align: center;
-  padding: 20px;
-  margin-top: auto;
-  border-top: 1px solid #00ffcc;
-  box-shadow: 0 -2px 10px #00ffcc33;
-  font-size: 14px;
-}
-
-  </style>
 </head>
-<body>
     <div class="navbar">
-        <a href="homepage.html" class="navbar-title">🔷 JTech</a>
+        <a href="homepage.html" class="navbar-title"> <span class="logo-j" >&#120129;</span>&#10809;&#120072;&#162;&#8459;</a>
         <div class="datetime">
             <span id="currentDate" style="cursor: pointer; margin-right: 20px;">📅 <span id="dateDisplay"></span></span>
             <span id="currentTime" style="cursor: pointer;">🕒 <span id="timeDisplay"></span></span>
         </div>
-    </div>
+        <div class="theme-switcher">
+          <select id="themeSelector">
+            <option value="default"> 🧩 Default</option>
+            <option value="pink">🌸 Pink</option>
+            <option value="blue">🔵 Blue</option>
+            <option value="light">💡 Light</option>
+            <option value="sunset">🌇 Sunset</option>
+            <option value="violet">💜 Violet</option>
+            <option value="green">💚 Green</option>
+            <option value="black-pink">🖤💖 Black Pink</option>
+            <option value="black-red">🖤❤️ Black Red</option>
+            <option value="black-blue">🖤💙 Black Blue</option>
+            <option value="purple-black">🖤� Black Purple</option>
+          </select>
+        </div>
 
-    <div id="calendarModal" class="modal">
-  <div class="modal-content">
-    <h3>Select Date</h3>
-    <input type="date" id="calendarInput" style="font-size: 16px; padding: 8px;" />
-    <div class="modal-buttons">
-      <button onclick="closeCalendarModal()">Close</button>
+        <!-- Inside Navbar -->
+        <a href="profile.html" id="navbar-profile-link">
+        <img id="navbar-avatar" src="./assets/images/jun.png" alt="Profile" style="height: 50px; width: 50px; border-radius: 50%;" />
+        </a>
+      </div>
     </div>
-  </div>
-</div>
 
 <!-- Analog Clock Modal -->
 <div id="clockModal" class="modal">
@@ -363,14 +48,14 @@
 </div>
 
   <div class="dashboard">
-    <div class="sidebar">
-      <a href="homepage.html">🏠 Home</a>
-      <a href="about.html">📄 About</a>
-      <a href="goals.html">🎯 Goals</a>
-      <a href="plan.html">📅 Plans</a>
-      <a href="library.html">📚 Library</a>
-      <a href="hobbies.html">🎨 Hobbies</a>
-      <a href="landing.html">🔒 Logout</a>
+    <div class="left-aside">
+      <a href="homepage.html">&#127969; Home</a>
+      <a href="about.html">&#128196; About</a>
+      <a href="goals.html">&#127919; Goals</a>
+      <a href="plan.html">&#128197; Plans</a>
+      <a href="library.html">&#128212; Library</a>
+      <a href="hobbies.html">&#127912; Hobbies</a>
+      <a href="landing.html">&#128274; Logout</a>
     </div>
 
     <div class="main">
@@ -379,42 +64,8 @@
 
     </div>
 
-    <div class="notes-panel">
-        <h2>🗒️ Notes</h2>
-        <textarea placeholder="Write your notes here..."></textarea>
-        <div class="note-buttons">
-          <button class="save-notes">Save</button>
-          <button class="clear-notes">Clear</button>
-        </div>
-        <div class="saved-note-container">
-          <div class="saved-note">
-            <span class="note-text"></span>
-            <button class="delete-note">✖</button>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Modal -->
-      <div id="deleteModal" class="modal">
-        <div class="modal-content">
-          <p>Are you sure you want to delete this note?</p>
-          <blockquote id="notePreview"></blockquote>
-          <div class="modal-buttons">
-            <button id="confirmDelete">Yes, delete</button>
-            <button id="cancelDelete">Cancel</button>
-          </div>
-        </div>
-      </div>
-      <div id="viewModal" class="modal">
-        <div class="modal-content">
-          <textarea id="noteModalTextarea" readonly></textarea>
-          <div class="modal-buttons">
-            <button id="editNoteBtn">Edit</button>
-            <button id="saveEditBtn" style="display: none;">Save Changes</button>
-            <button onclick="closeViewModal()">Close</button>
-          </div>
-        </div>
-      </div>
+    <div class="right-aside">
+    </div>
   </div>
 
   <footer class="footer">
@@ -513,109 +164,30 @@ function drawHand(ctx, pos, length, width, color = '#00ffcc') {
 }
 
   
-    const savedNoteBox = document.querySelector('.saved-note');
-  const noteText = document.querySelector('.note-text');
-  const notesArea = document.querySelector('.notes-panel textarea');
-  const saveNoteBtn = document.querySelector('.save-notes');
-  const clearNoteBtn = document.querySelector('.clear-notes');
-  const deleteBtn = document.querySelector('.delete-note');
-  const deleteModal = document.getElementById('deleteModal');
-  const notePreview = document.getElementById('notePreview');
-  const confirmDelete = document.getElementById('confirmDelete');
-  const cancelDelete = document.getElementById('cancelDelete');
-  const viewModal = document.getElementById('viewModal');
-  const noteModalTextarea = document.getElementById('noteModalTextarea');
-  const editNoteBtn = document.getElementById('editNoteBtn');
-  const saveEditBtn = document.getElementById('saveEditBtn');
+   // --- Theme Switcher ---//
 
-  function closeViewModal() {
-    viewModal.style.display = 'none';
-    noteModalTextarea.readOnly = true;
-    saveEditBtn.style.display = 'none';
-    editNoteBtn.style.display = 'inline-block';
-  }
+  const themeSelector = document.getElementById('themeSelector');
 
-  // Load saved note on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem('dashboardNote');
-    if (saved) {
-      noteText.textContent = saved;
-      savedNoteBox.style.display = 'block';
+  // Load stored theme
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+      document.body.setAttribute('data-theme', savedTheme);
+      themeSelector.value = savedTheme;
     }
   });
 
-  // Save note
-  saveNoteBtn.addEventListener('click', () => {
-    const note = notesArea.value.trim();
-    if (note) {
-      localStorage.setItem('dashboardNote', note);
-      noteText.textContent = note;
-      savedNoteBox.style.display = 'block';
-      notesArea.value = '';
+  themeSelector.addEventListener('change', function () {
+    const selected = this.value;
+    document.body.setAttribute('data-theme', selected);
+    localStorage.setItem('selectedTheme', selected);
+  });
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const userPhoto = localStorage.getItem("userPhoto");
+    if (userPhoto) {
+      document.getElementById("navbar-avatar").src = userPhoto;
     }
-  });
-
-  // Clear note input
-  clearNoteBtn.addEventListener('click', () => {
-    notesArea.value = '';
-  });
-
-  // Click to open view modal
-  savedNoteBox.addEventListener('click', (e) => {
-    if (!e.target.classList.contains('delete-note')) {
-      const currentNote = localStorage.getItem('dashboardNote');
-      if (currentNote) {
-        noteModalTextarea.value = currentNote;
-        viewModal.style.display = 'flex';
-        noteModalTextarea.readOnly = true;
-        saveEditBtn.style.display = 'none';
-        editNoteBtn.style.display = 'inline-block';
-      }
-    }
-  });
-
-  // Edit note
-  editNoteBtn.addEventListener('click', () => {
-    noteModalTextarea.readOnly = false;
-    saveEditBtn.style.display = 'inline-block';
-    editNoteBtn.style.display = 'none';
-  });
-
-  // Save edited note
-  saveEditBtn.addEventListener('click', () => {
-    const updatedNote = noteModalTextarea.value.trim();
-    localStorage.setItem('dashboardNote', updatedNote);
-    noteText.textContent = updatedNote;
-    closeViewModal();
-  });
-
-  // Show delete confirmation modal
-  deleteBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevent opening view modal
-    const currentNote = localStorage.getItem('dashboardNote');
-    if (currentNote) {
-      notePreview.textContent = currentNote;
-      deleteModal.style.display = 'flex';
-    }
-  });
-
-  // Confirm delete
-  confirmDelete.addEventListener('click', () => {
-    localStorage.removeItem('dashboardNote');
-    savedNoteBox.style.display = 'none';
-    noteText.textContent = '';
-    deleteModal.style.display = 'none';
-  });
-
-  // Cancel delete
-  cancelDelete.addEventListener('click', () => {
-    deleteModal.style.display = 'none';
-  });
-
-  // Close modals on outside click
-  window.addEventListener('click', (e) => {
-    if (e.target === deleteModal) deleteModal.style.display = 'none';
-    if (e.target === viewModal) closeViewModal();
   });
 
 </script>
