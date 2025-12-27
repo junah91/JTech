@@ -4,318 +4,49 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Comics Dashboard</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body, html {
-      margin: 0;
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(ellipse at top, #001a1a, #000000);
-      color: #00ffcc;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .navbar {
-      height: 100px;
-      flex-shrink: 0;
-      background: rgba(0, 30, 30, 0.9);
-      color: #00ffcc;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 20px;
-      font-size: 22px;
-      border-bottom: 1px solid #00ffcc;
-      box-shadow: 0 0 10px #00ffcc33;
-    }
-
-    .navbar-title {
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 30px;
-      padding: 12px 0;
-      transition: color 0.3s;
-    }
-
-    .datetime {
-      font-size: 16px;
-    }
-
-    .dashboard {
-      display: flex;
-      height: 100vh;
-      flex: 1;
-      overflow: hidden;
-    }
-
-    .sidebar {
-      width: 300px;
-      background: rgba(0, 20, 20, 0.85);
-      border-right: 1px solid #00ffcc;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .sidebar a {
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 12px 0;
-      border-bottom: 1px solid #004d4d;
-      transition: color 0.3s;
-    }
-
-    .sidebar a:hover {
-      color: #00ffaa;
-    }
-
-    .main {
-      flex: 1;
-      padding: 30px;
-      overflow-y: auto;
-      background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 20, 20, 0.7)), 
-                  url('https://wallpaperaccess.com/full/312097.jpg') no-repeat center center;
-      background-size: cover;
-      color: #00ffcc;
-    }
-
-    .hobbies-panel {
-      width: 300px;
-      background: rgba(0, 20, 20, 0.85);
-      border-left: 1px solid #00ffcc;
-      padding: 20px;
-      overflow-y: auto;
-    }
-
-    .hobbies-panel a {
-      display: block;
-      color: #00ffcc;
-      text-decoration: none;
-      font-size: 20px;
-      padding: 12px 0;
-      border-bottom: 1px solid #004d4d;
-      transition: color 0.3s;
-    }
-
-    .hobbies-panel a:hover {
-      color: #00ffaa;
-    }
-
-    .manhwa-gallery {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 30px;
-      justify-content: center;
-    }
-
-    .manhwa-card {
-      background: rgba(0, 20, 20, 0.85);
-      border: 1px solid #00ffcc55;
-      border-radius: 12px;
-      overflow: hidden;
-      width: 200px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-      box-shadow: 0 0 10px #00ffcc22;
-    }
-
-    .manhwa-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 15px #00ffcc88;
-    }
-
-    .manhwa-card img {
-      width: 100%;
-      height: 280px;
-      object-fit: cover;
-      border-bottom: 1px solid #003333;
-    }
-
-    .manhwa-info {
-      padding: 10px;
-    }
-
-    .manhwa-info h3 {
-      margin: 10px 0 5px;
-      color: #0ff;
-    }
-
-    .manhwa-info p {
-      color: #ccc;
-      font-size: 14px;
-      margin: 0;
-    }
-
-    .manhwa-info a {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 6px 12px;
-      background: #0ff;
-      color: #000;
-      border-radius: 6px;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .manhwa-info a:hover {
-      background: #09f;
-    }
-
-    .footer {
-      background: rgba(0, 30, 30, 0.9);
-      color: #00ffcc;
-      text-align: center;
-      padding: 20px;
-      margin-top: auto;
-      border-top: 1px solid #00ffcc;
-      box-shadow: 0 -2px 10px #00ffcc33;
-      font-size: 14px;
-    }
-
-    /* --- Responsive Enhancements --- */
-    @media (max-width: 1200px) {
-      .sidebar,
-      .hobbies-panel {
-        width: 240px;
-      }
-
-      .manhwa-card {
-        width: 180px;
-      }
-    }
-
-    @media (max-width: 992px) {
-      .navbar {
-        flex-direction: column;
-        height: auto;
-        padding: 10px;
-        text-align: center;
-      }
-
-      .navbar-title {
-        font-size: 24px;
-      }
-
-      .datetime {
-        margin-top: 10px;
-        font-size: 14px;
-      }
-
-      .dashboard {
-        flex-direction: column;
-        overflow: auto;
-      }
-
-      .sidebar,
-      .hobbies-panel {
-        width: 100%;
-        border: none;
-        display: flex;
-        justify-content: space-around;
-        padding: 10px;
-        border-top: 1px solid #00ffcc;
-        border-bottom: 1px solid #00ffcc;
-      }
-
-      .sidebar a,
-      .hobbies-panel a {
-        padding: 10px;
-        font-size: 16px;
-        border-bottom: none;
-      }
-
-      .main {
-        padding: 20px;
-      }
-
-      .manhwa-card {
-        width: 45%;
-      }
-    }
-
-    @media (max-width: 768px) {
-      .navbar-title {
-        font-size: 20px;
-      }
-
-      .datetime {
-        font-size: 12px;
-      }
-
-      .manhwa-card {
-        width: 100%;
-      }
-
-      .sidebar,
-      .hobbies-panel {
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .navbar {
-        font-size: 16px;
-      }
-
-      .sidebar a,
-      .hobbies-panel a {
-        font-size: 14px;
-      }
-
-      .manhwa-info h3 {
-        font-size: 16px;
-      }
-
-      .manhwa-info p {
-        font-size: 12px;
-      }
-
-      .manhwa-info a {
-        font-size: 12px;
-        padding: 4px 8px;
-      }
-
-      .footer {
-        font-size: 12px;
-        padding: 10px;
-      }
-    }
-</style>
+  <link rel="stylesheet" href="../style/hobbies.css">
 
 </head>
 <body>
   <div class="navbar">
-    <a href="../homepage.html" class="navbar-title">🔷 JTech</a>
-    <div class="datetime">
+        <a href="../homepage.html" class="navbar-title"> <span class="logo-j" >&#120129;</span>&#10809;&#120072;&#162;&#8459;</a>
+        <div class="datetime">
       <span id="currentDate" style="cursor: pointer; margin-right: 20px;">📅 <span id="dateDisplay"></span></span>
       <span id="currentTime" style="cursor: pointer;">🕒 <span id="timeDisplay"></span></span>
       <button id="darkModeToggle" style="margin-left: 20px; padding: 6px 12px; cursor: pointer;">🌓</button>
+        </div>
+        <div class="theme-switcher">
+          <select id="themeSelector">
+            <option value="default"> 🧩 Default</option>
+            <option value="pink">🌸 Pink</option>
+            <option value="blue">🔵 Blue</option>
+            <option value="light">💡 Light</option>
+            <option value="sunset">🌇 Sunset</option>
+            <option value="violet">💜 Violet</option>
+            <option value="green">💚 Green</option>
+            <option value="black-pink">🖤💖 Black Pink</option>
+            <option value="black-red">🖤❤️ Black Red</option>
+            <option value="black-blue">🖤💙 Black Blue</option>
+            <option value="purple-black">🖤� Black Purple</option>
+          </select>
+        </div>
+        <!-- Inside Navbar -->
+        <a href="../profile.html" id="navbar-profile-link">
+        <img id="navbar-avatar" src="../assets/images/jun.png" alt="Profile" style="height: 50px; width: 50px; border-radius: 50%;" />
+        </a>
+      </div>
     </div>
-  </div>
 
   <div class="dashboard">
     <div class="sidebar">
-        <a href="../homepage.html">🏠 Home</a>
-        <a href="../about.html">📄 About</a>
-        <a href="../goals.html">🎯 Goals</a>
-        <a href="../plan.html">📅 Plans</a>
-        <a href="../library.html">📚 Library</a>
-        <a href="../hobbies.html">🎨 Hobbies</a>
-        <a href="../landing.html">🔒 Logout</a>
-      </div>
+      <a href="../homepage.html">&#127969; Home</a>
+      <a href="../about.html">&#128196; About</a>
+      <a href="../goals.html">&#127919; Goals</a>
+      <a href="../plan.html">&#128197; Plans</a>
+      <a href="../library.html">&#128212; Library</a>
+      <a href="../hobbies.html">&#127912; Hobbies</a>
+      <a href="../landing.html">&#128274; Logout</a>
+    </div>
 
     <div class="main">
         <div class="manhwa-gallery" id="manhwaGallery"></div>
@@ -323,10 +54,10 @@
 
 
     <div class="hobbies-panel">
-        <a href="music.html">🎵 Music</a>
-        <a href="anime.html">📄 Anime</a>
-        <a href="Gaming.html">🎮 Gaming</a>
-        <a href="comics.html">📚 Comics</a>
+        <a href="music.html">&#127926; Music</a>
+        <a href="anime.html">&#127916; Anime</a>
+        <a href="Gaming.html">&#127918; Gaming</a>
+        <a href="comics.html">&#128212; Comics</a>
     </div>
     </div>
     <footer class="footer">
@@ -395,6 +126,31 @@
           `;
           gallery.appendChild(card);
         });
+        // --- Theme Switcher ---//
+
+  const themeSelector = document.getElementById('themeSelector');
+
+  // Load stored theme
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('selectedTheme');
+    if (savedTheme) {
+      document.body.setAttribute('data-theme', savedTheme);
+      themeSelector.value = savedTheme;
+    }
+  });
+
+  themeSelector.addEventListener('change', function () {
+    const selected = this.value;
+    document.body.setAttribute('data-theme', selected);
+    localStorage.setItem('selectedTheme', selected);
+  });
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const userPhoto = localStorage.getItem("userPhoto");
+    if (userPhoto) {
+      document.getElementById("navbar-avatar").src = userPhoto;
+    }
+  });
       </script>
       
         
