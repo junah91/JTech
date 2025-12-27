@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chess_Game Dashboard</title>
+  <link rel="stylesheet" href="../style/hobbies.css">
+</head>
+<body>
+  <div class="navbar">
+        <a href="../homepage.html" class="navbar-title"> <span class="logo-j" >&#120129;</span>&#10809;&#120072;&#162;&#8459;</a>
+        <div class="datetime">
+      <span id="currentDate" style="cursor: pointer; margin-right: 20px;">📅 <span id="dateDisplay"></span></span>
+      <span id="currentTime" style="cursor: pointer;">🕒 <span id="timeDisplay"></span></span>
+      <button id="darkModeToggle" style="margin-left: 20px; padding: 6px 12px; cursor: pointer;">🌓</button>
+        </div>
+        <!-- Inside Navbar -->
+        <a href="profile.html" id="navbar-profile-link">
+        <img id="navbar-avatar" src="../assets/images/sword-art-online-sword-art-online-ii-asada-shino-sinon-sword-art-online-wallpaper-preview.jpg" alt="Profile" style="height: 50px; width: 50px; border-radius: 50%;" />
+        </a>
+      </div>
+    </div>
+
+  <div class="dashboard">
+    <div class="sidebar">
+        <a href="../homepage.html">🏠 Home</a>
+        <a href="../about.html">📄 About</a>
+        <a href="../goals.html">🎯 Goals</a>
+        <a href="../plan.html">📅 Plans</a>
+        <a href="../library.html">📚 Library</a>
+        <a href="../hobbies.html">🎨 Hobbies</a>
+        <a href="../landing.html">🔒 Logout</a>
+      </div>
+
+    <div class="main">
+<h2>♟️ Chess Game</h2>
+</div>
+
+
+
+      
+
+    <div class="hobbies-panel">
+        <a href="../hobbies/music.html">🎵 Music</a>
+        <a href="../hobbies/anime.html">📄 Anime</a>
+        <a href="../hobbies/Gaming.html">🎮 Gaming</a>
+        <a href="../hobbies/comics.html">📚 Comics</a>
+    </div>
+    </div>
+    <footer class="footer">
+      © 2025 JTech. All rights reserved.
+    </footer>
+
+  <script>
+
+// Date & time updater
+function updateDateTime() {
+  const now = new Date();
+  document.getElementById('dateDisplay').textContent = now.toLocaleDateString();
+  document.getElementById('timeDisplay').textContent = now.toLocaleTimeString();
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
+
+// Dark mode toggle
+const darkModeToggle = document.getElementById("darkModeToggle");
+if (darkModeToggle) {
+  darkModeToggle.addEventListener("click", () => {
+    document.body.classList.toggle("dark-mode");
+  });
+}
+
+
+  const element = document.createElement("div");
+  element.style.backgroundColor = "#769656";
+  element.style.width = "200px";
+  element.style.height = "200px";
+
+  // Select the .main div and append the element to it
+  const mainDiv = document.querySelector('.main');
+  if (mainDiv) {
+    mainDiv.appendChild(element);
+  }
+
+  </script>
+</body>
+</html>
