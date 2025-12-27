@@ -44,5 +44,8 @@ A visually striking, futuristic-themed personal profile dashboard built using **
 1. **Download or clone** this repository:
 
    ```bash
-   git clone https://github.com/yourusername/futuristic-profile-dashboard.git
-   cd futuristic-profile-dashboard
+   
+=======
+   git clone https://github.com/junah91/JTech.git
+   cd JTech
+>>>>>>> 2852f93d29ae7679ef8661d57ae6e6100a6bddee
